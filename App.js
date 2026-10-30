@@ -15,10 +15,13 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   const pickImage = async () => {
-    // Pide permiso para usa el gallery
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permission Denied', 'Sorry, we need camera roll permissions to make this work!');
+      if (Platform.OS === 'web') {
+        window.alert('Permission Denied: Camera roll permissions are required.');
+      } else {
+        Alert.alert('Permission Denied', 'Camera roll permissions are required.');
+      }
       return;
     }
 
@@ -34,44 +37,40 @@ export default function App() {
   };
 
   const uploadToCloudinary = async () => {
-  if (!imageUri) return null;
+    if (!imageUri) return null;
 
-  const data = new FormData();
-  
-  if (Platform.OS === 'web') {
-    // Fetch the local blob URL and convert it into an actual file object
-    const blobResponse = await fetch(imageUri);
-    const blob = await blobResponse.blob();
-    data.append('file', blob, 'screenshot.jpg');
-  } else {
-    // Mobile formatting remains the same
-    data.append('file', {
-      uri: imageUri,
-      type: 'image/jpeg',
-      name: 'screenshot.jpg',
+    const data = new FormData();
+    
+    if (Platform.OS === 'web') {
+      const blobResponse = await fetch(imageUri);
+      const blob = await blobResponse.blob();
+      data.append('file', blob, 'screenshot.jpg');
+    } else {
+      data.append('file', {
+        uri: imageUri,
+        type: 'image/jpeg',
+        name: 'screenshot.jpg',
+      });
+    }
+    
+    data.append('upload_preset', process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
+    const cloudName = process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    
+    const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: 'POST',
+      body: data,
     });
-  }
-  
-  data.append('upload_preset', process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
 
-  const cloudName = process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-    method: 'POST',
-    body: data,
-  });
+    const result = await cloudinaryResponse.json();
+    
+    if (result.error) {
+      throw new Error(`Cloudinary Error: ${result.error.message}`);
+    }
 
-  const result = await cloudinaryResponse.json();
-  
-  if (result.error) {
-    console.log("Cloudinary Rejection:", result.error.message);
-    throw new Error(`Cloudinary Error: ${result.error.message}`);
-  }
-
-  return result.secure_url;
-};
+    return result.secure_url;
+  };
 
   const sendEmail = async (uploadedImageUrl) => {
-    // Prepara el data para EmailJS
     const emailData = {
       service_id: process.env.EXPO_PUBLIC_EMAILJS_SERVICE_ID,
       template_id: process.env.EXPO_PUBLIC_EMAILJS_TEMPLATE_ID,
@@ -91,7 +90,6 @@ export default function App() {
       body: JSON.stringify(emailData),
     });
 
-    // Chequea si tiene error el response de EmailJS
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`EmailJS Error: ${errorText}`);
@@ -99,34 +97,39 @@ export default function App() {
   };
 
   const handleSubmit = async () => {
-    // Pone console.log para busca el error si no ta funciona el submit
-    console.log("1. Button pressed");
-    console.log(`Data -> Name: ${name}, Email: ${email}, Message: ${message}`);
-
     if (!name || !email || !message) {
-      console.log("2. Stopped: Missing required fields");
-      Alert.alert('Missing Fields', 'Please fill out all required fields.');
+      if (Platform.OS === 'web') {
+        window.alert('Missing Fields: Please fill out all required fields.');
+      } else {
+        Alert.alert('Missing Fields', 'Please fill out all required fields.');
+      }
       return;
     }
 
-    console.log("3. Validation passed, starting upload...");
     setLoading(true);
     try {
       let imageUrl = null;
       if (imageUri) {
         imageUrl = await uploadToCloudinary();
-        if (!imageUrl) throw new Error('Image upload failed');
       }
 
-      console.log("4. Image uploaded, sending email...");
       await sendEmail(imageUrl);
       
-      console.log("5. Email sent successfully!");
-      Alert.alert('Success', 'Your support request has been sent!');
+      const successMessage = 'Your support ticket has been submitted.';
+      if (Platform.OS === 'web') {
+        window.alert(`Success: ${successMessage}`);
+      } else {
+        Alert.alert('Success', successMessage);
+      }
+      
       setName(''); setEmail(''); setMessage(''); setImageUri(null); setCategory('Account Problem');
     } catch (error) {
-      console.log("Error caught:", error.message);
-      Alert.alert('Error', error.message || 'Something went wrong. Please try again.');
+      const errorMessage = error.message || 'An unexpected error occurred.';
+      if (Platform.OS === 'web') {
+        window.alert(`Error: ${errorMessage}`);
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -134,48 +137,67 @@ export default function App() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.glassCard}>
+      <View style={styles.header}>
         <Text style={styles.title}>Support Ticket</Text>
+        <Text style={styles.subtitle}>Let us know how we can help.</Text>
+      </View>
 
-        <TextInput style={styles.input} placeholder="Name" placeholderTextColor="#888" value={name} onChangeText={setName} />
-        <TextInput style={styles.input} placeholder="Email Address" placeholderTextColor="#888" keyboardType="email-address" value={email} onChangeText={setEmail} />
-        
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Name</Text>
+        <TextInput style={styles.input} placeholder="Enter your name" placeholderTextColor="#71717A" value={name} onChangeText={setName} />
+      </View>
+
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Email Address</Text>
+        <TextInput style={styles.input} placeholder="name@example.com" placeholderTextColor="#71717A" keyboardType="email-address" value={email} onChangeText={setEmail} autoCapitalize="none" />
+      </View>
+      
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Issue Category</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#fff">
-            <Picker.Item label="Account Problem" value="Account Problem" color="#fff" />
-            <Picker.Item label="Technical Issue" value="Technical Issue" color="#fff" />
-            <Picker.Item label="Payment Concern" value="Payment Concern" color="#fff" />
-            <Picker.Item label="Other" value="Other" color="#fff" />
+          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#A1A1AA">
+            <Picker.Item label="Account Problem" value="Account Problem" />
+            <Picker.Item label="Technical Issue" value="Technical Issue" />
+            <Picker.Item label="Payment Concern" value="Payment Concern" />
+            <Picker.Item label="Other" value="Other" />
           </Picker>
         </View>
-
-        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe your issue..." placeholderTextColor="#888" multiline numberOfLines={4} value={message} onChangeText={setMessage} />
-
-        <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
-          <Text style={styles.buttonText}>{imageUri ? 'Change Screenshot' : 'Upload Screenshot'}</Text>
-        </TouchableOpacity>
-
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.preview} />}
-
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.submitText}>Submit Request</Text>}
-        </TouchableOpacity>
       </View>
+
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Message</Text>
+        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe the problem in detail..." placeholderTextColor="#71717A" multiline numberOfLines={5} value={message} onChangeText={setMessage} />
+      </View>
+
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Attachment</Text>
+        <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
+          <Text style={styles.buttonText}>{imageUri ? 'Tap to change screenshot' : '+ Upload Screenshot'}</Text>
+        </TouchableOpacity>
+        {imageUri && <Image source={{ uri: imageUri }} style={styles.preview} resizeMode="contain" />}
+      </View>
+
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
+        {loading ? <ActivityIndicator color="#09090B" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
+      </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center', padding: 20 },
-  glassCard: { width: '100%', backgroundColor: 'rgba(25, 25, 25, 0.45)', padding: 25, borderRadius: 24, borderColor: 'rgba(255, 255, 255, 0.1)', borderWidth: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.5, shadowRadius: 20, elevation: 10 },
-  title: { fontSize: 26, fontWeight: '700', color: '#FFFFFF', marginBottom: 25, textAlign: 'center', textShadowColor: 'rgba(255, 255, 255, 0.2)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 4 },
-  input: { backgroundColor: 'rgba(40, 40, 40, 0.6)', color: '#FFF', borderRadius: 12, padding: 16, marginBottom: 15, fontSize: 16, borderColor: 'rgba(255, 255, 255, 0.05)', borderWidth: 1 },
+  container: { flexGrow: 1, backgroundColor: '#09090B', padding: 24, justifyContent: 'center' },
+  header: { marginBottom: 32 },
+  title: { fontSize: 32, fontWeight: '800', color: '#FAFAFA', letterSpacing: -0.5 },
+  subtitle: { fontSize: 16, color: '#A1A1AA', marginTop: 6 },
+  formGroup: { marginBottom: 20 },
+  label: { fontSize: 13, fontWeight: '600', color: '#E4E4E7', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { backgroundColor: '#18181B', color: '#FAFAFA', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#27272A' },
   textArea: { height: 120, textAlignVertical: 'top' },
-  pickerContainer: { backgroundColor: 'rgba(40, 40, 40, 0.6)', borderRadius: 12, marginBottom: 15, overflow: 'hidden', borderColor: 'rgba(255, 255, 255, 0.05)', borderWidth: 1 },
-  picker: { color: '#FFF', height: 55 },
-  imageButton: { backgroundColor: 'rgba(60, 60, 65, 0.5)', padding: 15, borderRadius: 12, alignItems: 'center', marginBottom: 15, borderColor: 'rgba(255, 255, 255, 0.08)', borderWidth: 1 },
-  buttonText: { color: '#4DA8DA', fontSize: 16, fontWeight: '600' },
-  preview: { width: '100%', height: 200, borderRadius: 12, marginBottom: 15, resizeMode: 'cover', borderColor: 'rgba(255, 255, 255, 0.1)', borderWidth: 1 },
-  submitButton: { backgroundColor: '#4DA8DA', padding: 16, borderRadius: 12, alignItems: 'center', shadowColor: '#4DA8DA', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 5 },
-  submitText: { color: '#FFF', fontSize: 18, fontWeight: 'bold' }
+  pickerContainer: { backgroundColor: '#18181B', borderRadius: 12, borderWidth: 1, borderColor: '#27272A', overflow: 'hidden' },
+  picker: { color: '#FAFAFA', height: 55, backgroundColor: '#18181B' },
+  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#3F3F46' },
+  buttonText: { color: '#A1A1AA', fontSize: 15, fontWeight: '500' },
+  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#27272A', backgroundColor: '#18181B' },
+  submitButton: { backgroundColor: '#FAFAFA', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
+  submitText: { color: '#09090B', fontSize: 16, fontWeight: '700' }
 });
