@@ -155,7 +155,7 @@ export default function App() {
       <View style={styles.formGroup}>
         <Text style={styles.label}>Issue Category</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#A1A1AA">
+          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#FFCC00">
             <Picker.Item label="Account Problem" value="Account Problem" />
             <Picker.Item label="Technical Issue" value="Technical Issue" />
             <Picker.Item label="Payment Concern" value="Payment Concern" />
@@ -178,26 +178,26 @@ export default function App() {
       </View>
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
-        {loading ? <ActivityIndicator color="#09090B" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
+        {loading ? <ActivityIndicator color="#000000" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, backgroundColor: '#09090B', padding: 24, justifyContent: 'center' },
+  container: { flexGrow: 1, backgroundColor: '#000000', padding: 24, justifyContent: 'center' },
   header: { marginBottom: 32 },
-  title: { fontSize: 32, fontWeight: '800', color: '#FAFAFA', letterSpacing: -0.5 },
+  title: { fontSize: 32, fontWeight: '800', color: '#FFCC00', letterSpacing: -0.5 },
   subtitle: { fontSize: 16, color: '#A1A1AA', marginTop: 6 },
   formGroup: { marginBottom: 20 },
-  label: { fontSize: 13, fontWeight: '600', color: '#E4E4E7', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
-  input: { backgroundColor: '#18181B', color: '#FAFAFA', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#27272A' },
+  label: { fontSize: 13, fontWeight: '700', color: '#FFCC00', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { backgroundColor: '#111111', color: '#FFFFFF', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#333333' },
   textArea: { height: 120, textAlignVertical: 'top' },
-  pickerContainer: { backgroundColor: '#18181B', borderRadius: 12, borderWidth: 1, borderColor: '#27272A', overflow: 'hidden' },
-  picker: { color: '#FAFAFA', height: 55, backgroundColor: '#18181B' },
-  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#3F3F46' },
-  buttonText: { color: '#A1A1AA', fontSize: 15, fontWeight: '500' },
-  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#27272A', backgroundColor: '#18181B' },
-  submitButton: { backgroundColor: '#FAFAFA', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
-  submitText: { color: '#09090B', fontSize: 16, fontWeight: '700' }
+  pickerContainer: { backgroundColor: '#111111', borderRadius: 12, borderWidth: 1, borderColor: '#333333', overflow: 'hidden' },
+  picker: { color: '#FFFFFF', height: 55, backgroundColor: '#111111' },
+  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#FFCC00' },
+  buttonText: { color: '#FFCC00', fontSize: 15, fontWeight: '600' },
+  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#333333', backgroundColor: '#111111' },
+  submitButton: { backgroundColor: '#FFCC00', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
+  submitText: { color: '#000000', fontSize: 16, fontWeight: '800' }
 });
