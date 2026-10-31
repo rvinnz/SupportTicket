@@ -144,18 +144,18 @@ export default function App() {
 
       <View style={styles.formGroup}>
         <Text style={styles.label}>Name</Text>
-        <TextInput style={styles.input} placeholder="Enter your name" placeholderTextColor="#71717A" value={name} onChangeText={setName} />
+        <TextInput style={styles.input} placeholder="Enter your name" placeholderTextColor="#94A3B8" value={name} onChangeText={setName} />
       </View>
 
       <View style={styles.formGroup}>
         <Text style={styles.label}>Email Address</Text>
-        <TextInput style={styles.input} placeholder="name@example.com" placeholderTextColor="#71717A" keyboardType="email-address" value={email} onChangeText={setEmail} autoCapitalize="none" />
+        <TextInput style={styles.input} placeholder="name@example.com" placeholderTextColor="#94A3B8" keyboardType="email-address" value={email} onChangeText={setEmail} autoCapitalize="none" />
       </View>
       
       <View style={styles.formGroup}>
         <Text style={styles.label}>Issue Category</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#FFCC00">
+          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#0EA5E9">
             <Picker.Item label="Account Problem" value="Account Problem" />
             <Picker.Item label="Technical Issue" value="Technical Issue" />
             <Picker.Item label="Payment Concern" value="Payment Concern" />
@@ -166,7 +166,7 @@ export default function App() {
 
       <View style={styles.formGroup}>
         <Text style={styles.label}>Message</Text>
-        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe the problem in detail..." placeholderTextColor="#71717A" multiline numberOfLines={5} value={message} onChangeText={setMessage} />
+        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe the problem in detail..." placeholderTextColor="#94A3B8" multiline numberOfLines={5} value={message} onChangeText={setMessage} />
       </View>
 
       <View style={styles.formGroup}>
@@ -178,26 +178,26 @@ export default function App() {
       </View>
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
-        {loading ? <ActivityIndicator color="#000000" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
+        {loading ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, backgroundColor: '#000000', padding: 24, justifyContent: 'center' },
+  container: { flexGrow: 1, backgroundColor: '#FFFFFF', padding: 24, justifyContent: 'center' },
   header: { marginBottom: 32 },
-  title: { fontSize: 32, fontWeight: '800', color: '#FFCC00', letterSpacing: -0.5 },
-  subtitle: { fontSize: 16, color: '#A1A1AA', marginTop: 6 },
+  title: { fontSize: 32, fontWeight: '800', color: '#0EA5E9', letterSpacing: -0.5 },
+  subtitle: { fontSize: 16, color: '#64748B', marginTop: 6 },
   formGroup: { marginBottom: 20 },
-  label: { fontSize: 13, fontWeight: '700', color: '#FFCC00', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
-  input: { backgroundColor: '#111111', color: '#FFFFFF', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#333333' },
+  label: { fontSize: 13, fontWeight: '700', color: '#0EA5E9', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { backgroundColor: '#F8FAFC', color: '#0F172A', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#CBD5E1' },
   textArea: { height: 120, textAlignVertical: 'top' },
-  pickerContainer: { backgroundColor: '#111111', borderRadius: 12, borderWidth: 1, borderColor: '#333333', overflow: 'hidden' },
-  picker: { color: '#FFFFFF', height: 55, backgroundColor: '#111111' },
-  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#FFCC00' },
-  buttonText: { color: '#FFCC00', fontSize: 15, fontWeight: '600' },
-  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#333333', backgroundColor: '#111111' },
-  submitButton: { backgroundColor: '#FFCC00', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
-  submitText: { color: '#000000', fontSize: 16, fontWeight: '800' }
+  pickerContainer: { backgroundColor: '#F8FAFC', borderRadius: 12, borderWidth: 1, borderColor: '#CBD5E1', overflow: 'hidden' },
+  picker: { color: '#0F172A', height: 55, backgroundColor: '#F8FAFC' },
+  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#0EA5E9' },
+  buttonText: { color: '#0EA5E9', fontSize: 15, fontWeight: '600' },
+  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#CBD5E1', backgroundColor: '#F8FAFC' },
+  submitButton: { backgroundColor: '#0EA5E9', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
+  submitText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' }
 });
