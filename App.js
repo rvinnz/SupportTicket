@@ -6,6 +6,14 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
 
+// Sky blue theme
+const SKY = '#38BDF8';        // main accent
+const SKY_LIGHT = '#BAE6FD';  // labels / soft text
+const SKY_DARK = '#0C4A6E';   // text on sky blue buttons
+const BG = '#0B1622';         // dark navy background
+const SURFACE = '#12202F';    // inputs / cards
+const BORDER = '#1E3A52';     // borders
+
 export default function App() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -144,18 +152,18 @@ export default function App() {
 
       <View style={styles.formGroup}>
         <Text style={styles.label}>Name</Text>
-        <TextInput style={styles.input} placeholder="Enter your name" placeholderTextColor="#71717A" value={name} onChangeText={setName} />
+        <TextInput style={styles.input} placeholder="Enter your name" placeholderTextColor="#6B8CA8" value={name} onChangeText={setName} />
       </View>
 
       <View style={styles.formGroup}>
         <Text style={styles.label}>Email Address</Text>
-        <TextInput style={styles.input} placeholder="name@example.com" placeholderTextColor="#71717A" keyboardType="email-address" value={email} onChangeText={setEmail} autoCapitalize="none" />
+        <TextInput style={styles.input} placeholder="name@example.com" placeholderTextColor="#6B8CA8" keyboardType="email-address" value={email} onChangeText={setEmail} autoCapitalize="none" />
       </View>
       
       <View style={styles.formGroup}>
         <Text style={styles.label}>Issue Category</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#A1A1AA">
+          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor={SKY}>
             <Picker.Item label="Account Problem" value="Account Problem" />
             <Picker.Item label="Technical Issue" value="Technical Issue" />
             <Picker.Item label="Payment Concern" value="Payment Concern" />
@@ -166,7 +174,7 @@ export default function App() {
 
       <View style={styles.formGroup}>
         <Text style={styles.label}>Message</Text>
-        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe the problem in detail..." placeholderTextColor="#71717A" multiline numberOfLines={5} value={message} onChangeText={setMessage} />
+        <TextInput style={[styles.input, styles.textArea]} placeholder="Describe the problem in detail..." placeholderTextColor="#6B8CA8" multiline numberOfLines={5} value={message} onChangeText={setMessage} />
       </View>
 
       <View style={styles.formGroup}>
@@ -178,26 +186,26 @@ export default function App() {
       </View>
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
-        {loading ? <ActivityIndicator color="#09090B" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
+        {loading ? <ActivityIndicator color={SKY_DARK} /> : <Text style={styles.submitText}>Submit Ticket</Text>}
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, backgroundColor: '#09090B', padding: 24, justifyContent: 'center' },
+  container: { flexGrow: 1, backgroundColor: BG, padding: 24, justifyContent: 'center' },
   header: { marginBottom: 32 },
-  title: { fontSize: 32, fontWeight: '800', color: '#FAFAFA', letterSpacing: -0.5 },
-  subtitle: { fontSize: 16, color: '#A1A1AA', marginTop: 6 },
+  title: { fontSize: 32, fontWeight: '800', color: ORANGE, letterSpacing: -0.5 },
+  subtitle: { fontSize: 16, color: SKY_LIGHT, marginTop: 6, opacity: 0.8 },
   formGroup: { marginBottom: 20 },
-  label: { fontSize: 13, fontWeight: '600', color: '#E4E4E7', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
-  input: { backgroundColor: '#18181B', color: '#FAFAFA', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#27272A' },
+  label: { fontSize: 13, fontWeight: '600', color: SKY_LIGHT, marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { backgroundColor: SURFACE, color: '#4a5964', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: BORDER },
   textArea: { height: 120, textAlignVertical: 'top' },
-  pickerContainer: { backgroundColor: '#18181B', borderRadius: 12, borderWidth: 1, borderColor: '#27272A', overflow: 'hidden' },
-  picker: { color: '#FAFAFA', height: 55, backgroundColor: '#18181B' },
-  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#3F3F46' },
-  buttonText: { color: '#A1A1AA', fontSize: 15, fontWeight: '500' },
-  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#27272A', backgroundColor: '#18181B' },
-  submitButton: { backgroundColor: '#FAFAFA', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
-  submitText: { color: '#09090B', fontSize: 16, fontWeight: '700' }
+  pickerContainer: { backgroundColor: SURFACE, borderRadius: 12, borderWidth: 1, borderColor: BORDER, overflow: 'hidden' },
+  picker: { color: '#F0F9FF', height: 55, backgroundColor: SURFACE },
+  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: SKY },
+  buttonText: { color: SKY, fontSize: 15, fontWeight: '500' },
+  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: BORDER, backgroundColor: SURFACE },
+  submitButton: { backgroundColor: SKY, padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
+  submitText: { color: SKY_DARK, fontSize: 16, fontWeight: '700' }
 });
