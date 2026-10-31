@@ -155,7 +155,7 @@ export default function App() {
       <View style={styles.formGroup}>
         <Text style={styles.label}>Issue Category</Text>
         <View style={styles.pickerContainer}>
-          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#0EA5E9">
+          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} itemStyle={{ fontSize: 16 }} dropdownIconColor="#0EA5E9">
             <Picker.Item label="Account Problem" value="Account Problem" />
             <Picker.Item label="Technical Issue" value="Technical Issue" />
             <Picker.Item label="Payment Concern" value="Payment Concern" />
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   input: { backgroundColor: '#F8FAFC', color: '#0F172A', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#CBD5E1' },
   textArea: { height: 120, textAlignVertical: 'top' },
   pickerContainer: { backgroundColor: '#F8FAFC', borderRadius: 12, borderWidth: 1, borderColor: '#CBD5E1', overflow: 'hidden' },
-  picker: { color: '#0F172A', height: 55, backgroundColor: '#F8FAFC' },
+  picker: { color: '#0F172A', height: 55, backgroundColor: '#F8FAFC', fontSize: 16 },
   imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#0EA5E9' },
   buttonText: { color: '#0EA5E9', fontSize: 15, fontWeight: '600' },
   preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#CBD5E1', backgroundColor: '#F8FAFC' },
