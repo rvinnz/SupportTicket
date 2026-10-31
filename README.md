@@ -1,6 +1,11 @@
-# Customer Support Form
+Support Ticket App
 
-A React Native mobile application built with Expo that allows users to submit support requests with screenshot attachments.
+## Team Members: 
+1. Arvin Cautivar
+2. Jancel Venales
+
+## GitHub Repository: 
+https://github.com/rvinnz/SupportTicket.git
 
 ## Tech Stack
 - React Native / Expo
@@ -9,7 +14,15 @@ A React Native mobile application built with Expo that allows users to submit su
 
 ## Setup Instructions
 1. Clone the repository.
-2. Run `npm install` to install dependencies.
-3. Create a `.env` file in the root directory (do not commit this).
-4. Copy the variables from `.env.example` into your `.env` and fill in your Cloudinary and EmailJS credentials.
-5. Run `npx expo start` to launch the app.
+2. Run `npm install` to install all dependencies.
+3. Create a `.env` file in the root directory. Do not commit this file.
+4. Populate the `.env` file using the required variables listed below.
+5. Run `npx expo start -c` to clear the cache and launch the app.
+
+## Required Environment Variables
+Your `.env` file must contain these exact keys:
+EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME
+EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+EXPO_PUBLIC_EMAILJS_SERVICE_ID
+EXPO_PUBLIC_EMAILJS_TEMPLATE_ID
+EXPO_PUBLIC_EMAILJS_PUBLIC_KEY
