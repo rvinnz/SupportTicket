@@ -163,7 +163,11 @@ export default function App() {
       <View style={styles.formGroup}>
         <Text style={styles.label}>Issue Category</Text>
         <View style={styles.pickerContainer}>
+<<<<<<< HEAD
           <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor={SKY}>
+=======
+          <Picker selectedValue={category} onValueChange={setCategory} style={styles.picker} dropdownIconColor="#FFCC00">
+>>>>>>> 82d7569af5f6af02bc70641833d3ae095fadabd5
             <Picker.Item label="Account Problem" value="Account Problem" />
             <Picker.Item label="Technical Issue" value="Technical Issue" />
             <Picker.Item label="Payment Concern" value="Payment Concern" />
@@ -186,13 +190,18 @@ export default function App() {
       </View>
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} disabled={loading}>
+<<<<<<< HEAD
         {loading ? <ActivityIndicator color={SKY_DARK} /> : <Text style={styles.submitText}>Submit Ticket</Text>}
+=======
+        {loading ? <ActivityIndicator color="#000000" /> : <Text style={styles.submitText}>Submit Ticket</Text>}
+>>>>>>> 82d7569af5f6af02bc70641833d3ae095fadabd5
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   container: { flexGrow: 1, backgroundColor: BG, padding: 24, justifyContent: 'center' },
   header: { marginBottom: 32 },
   title: { fontSize: 32, fontWeight: '800', color: ORANGE, letterSpacing: -0.5 },
@@ -208,4 +217,21 @@ const styles = StyleSheet.create({
   preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: BORDER, backgroundColor: SURFACE },
   submitButton: { backgroundColor: SKY, padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
   submitText: { color: SKY_DARK, fontSize: 16, fontWeight: '700' }
+=======
+  container: { flexGrow: 1, backgroundColor: '#000000', padding: 24, justifyContent: 'center' },
+  header: { marginBottom: 32 },
+  title: { fontSize: 32, fontWeight: '800', color: '#FFCC00', letterSpacing: -0.5 },
+  subtitle: { fontSize: 16, color: '#A1A1AA', marginTop: 6 },
+  formGroup: { marginBottom: 20 },
+  label: { fontSize: 13, fontWeight: '700', color: '#FFCC00', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { backgroundColor: '#111111', color: '#FFFFFF', borderRadius: 12, padding: 16, fontSize: 16, borderWidth: 1, borderColor: '#333333' },
+  textArea: { height: 120, textAlignVertical: 'top' },
+  pickerContainer: { backgroundColor: '#111111', borderRadius: 12, borderWidth: 1, borderColor: '#333333', overflow: 'hidden' },
+  picker: { color: '#FFFFFF', height: 55, backgroundColor: '#111111' },
+  imageButton: { backgroundColor: 'transparent', padding: 18, borderRadius: 12, alignItems: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#FFCC00' },
+  buttonText: { color: '#FFCC00', fontSize: 15, fontWeight: '600' },
+  preview: { width: '100%', height: 200, borderRadius: 12, marginTop: 12, borderWidth: 1, borderColor: '#333333', backgroundColor: '#111111' },
+  submitButton: { backgroundColor: '#FFCC00', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 10 },
+  submitText: { color: '#000000', fontSize: 16, fontWeight: '800' }
+>>>>>>> 82d7569af5f6af02bc70641833d3ae095fadabd5
 });
